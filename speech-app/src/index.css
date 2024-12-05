@@ -19,7 +19,7 @@ body{
 }
 
 .subTitle{
-    color: rgb(179, 5, 5);
+    color: rgb(219, 4, 4);
     
 }
 
@@ -38,12 +38,33 @@ body{
 }
 .form-control::placeholder{
     color: #f3f3f3;
+    font-size: 17px;
 }
 
 .form-control:focus{
   outline: none;
 }
 
+.listen-button{
+    margin-top: 20px;
+    width: 140px;
+    height: 40px;
+    border: none;
+    background-color: rgb(201, 15, 15);
+    position: absolute;
+    right: 8.7%;
+    border-radius: 50px;
+    color: #f3f3f3;
+    font-family: Arial,sans-serif;
+    font-size: 17px;
+}
 
+button img{
+    height: 34px;
+    position: absolute;
+    left: 10px;
+    top: 3px;
+
+}
 
 
