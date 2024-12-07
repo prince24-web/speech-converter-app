@@ -1,16 +1,17 @@
 import PlayIcon from "./assets/playicon.png";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 function App() {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const meta = document.createElement("meta");
     meta.name = "viewport";
-    meta.content = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
+    meta.content =
+      "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
     document.head.appendChild(meta);
   }, []);
 
@@ -19,8 +20,8 @@ function App() {
     if (isLoading) return;
 
     // Validate input
-    if (!content || content.trim() === '') {
-      alert('Please enter some text to convert to speech');
+    if (!content || content.trim() === "") {
+      alert("Please enter some text to convert to speech");
       return;
     }
 
@@ -28,42 +29,42 @@ function App() {
       // Set loading state to prevent further clicks
       setIsLoading(true);
 
-      const response = await axios.get('https://api.voicerss.org/', {
+      const response = await axios.get("https://api.voicerss.org/", {
         params: {
           key: "7dc86484121f42bf848874a5130085e8",
           src: content,
-          hl: 'en-us',
+          hl: "en-us",
           r: 0,
-          c: 'mp3',
-          f: '44khz_16bit_stereo',
+          c: "mp3",
+          f: "44khz_16bit_stereo",
         },
-        responseType: 'blob',
+        responseType: "blob",
       });
 
       const audioUrl = URL.createObjectURL(response.data);
       const audio = new Audio(audioUrl);
-      
+
       // Add event listeners to manage loading state
-      audio.addEventListener('ended', () => {
+      audio.addEventListener("ended", () => {
         setIsLoading(false);
       });
 
-      audio.addEventListener('error', () => {
+      audio.addEventListener("error", () => {
         setIsLoading(false);
-        alert('Error playing audio');
+        alert("Error playing audio");
       });
 
       await audio.play();
     } catch (error) {
-      console.error('Error with VoiceRSS:', error);
-      alert('Sorry, there was an error converting text to speech');
+      console.error("Error with VoiceRSS:", error);
+      alert("Sorry, there was an error converting text to speech");
       setIsLoading(false);
     }
   };
 
   const handleSpeech = (event) => {
     setContent(event.target.value);
-  }
+  };
 
   return (
     <div className="container">
@@ -75,7 +76,18 @@ function App() {
           duration: 0.5,
         }}
       >
-        Text To Speech <span className="subTitle">Converter</span>
+        Text To Speech{" "}
+        <span className="subTitle">
+          <li>C</li>
+          <li>o</li>
+          <li>n</li>
+          <li>v</li>
+          <li>e</li>
+          <li>r</li>
+          <li>t</li>
+          <li>e</li>
+          <li>r</li>
+        </span>
       </motion.h1>
       <div className="input-group">
         <motion.textarea
@@ -102,9 +114,8 @@ function App() {
           duration: 0.5,
         }}
       >
-       
-       {!isLoading && <img src={PlayIcon} alt="Play" />}
-       {isLoading ? 'Converting...' : 'Listen'}
+        {!isLoading && <img src={PlayIcon} alt="Play" />}
+        {isLoading ? "Converting..." : "Listen"}
       </motion.button>
     </div>
   );
