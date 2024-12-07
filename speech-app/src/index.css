@@ -135,3 +135,27 @@ li:nth-last-child(8){
 li:nth-last-child(9){
     animation-delay: 1.8s;
 }
+
+.splash-screen img{
+    width: 250px;
+    height: 150px;
+    margin-top: 200px;
+
+
+}
+
+.splash-screen{
+   text-align: center;
+   color: #f3f3f3;
+}
+.splash-screen p{
+    margin-top:8rem;
+}
+
+.splash-screen p li{
+    list-style-type: none;
+    display: inline;
+    letter-spacing: 5px;
+    font-size: 10px;
+}
+

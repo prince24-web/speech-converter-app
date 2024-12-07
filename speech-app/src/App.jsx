@@ -1,4 +1,5 @@
 import PlayIcon from "./assets/playicon.png";
+import AppIcon from "./assets/TTS app icon.png";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -6,6 +7,7 @@ import axios from "axios";
 function App() {
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     const meta = document.createElement("meta");
@@ -13,20 +15,25 @@ function App() {
     meta.content =
       "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no";
     document.head.appendChild(meta);
+
+    // Add splash screen timer
+    const splashTimer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000);
+
+    // Cleanup the timer
+    return () => clearTimeout(splashTimer);
   }, []);
 
   const speak = async () => {
-    // Prevent multiple simultaneous calls
     if (isLoading) return;
 
-    // Validate input
     if (!content || content.trim() === "") {
       alert("Please enter some text to convert to speech");
       return;
     }
 
     try {
-      // Set loading state to prevent further clicks
       setIsLoading(true);
 
       const response = await axios.get("https://api.voicerss.org/", {
@@ -44,7 +51,6 @@ function App() {
       const audioUrl = URL.createObjectURL(response.data);
       const audio = new Audio(audioUrl);
 
-      // Add event listeners to manage loading state
       audio.addEventListener("ended", () => {
         setIsLoading(false);
       });
@@ -66,7 +72,39 @@ function App() {
     setContent(event.target.value);
   };
 
-  return (
+  // Splash screen component
+  const SplashScreen = () => (
+    <motion.div 
+      className="splash-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <img src={AppIcon} />
+     
+      <motion.h1
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        
+        TTS App
+      
+      </motion.h1>
+      <motion.p
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+      >
+      From <br/> {["L","u","m","i","o"].map((brandName, index) => (<li key={index} className="name">{brandName}</li>))}
+      </motion.p>
+      
+    </motion.div>
+  );
+
+  // Main App Content
+  const MainContent = () => (
     <div className="container">
       <motion.h1
         className="title"
@@ -78,15 +116,9 @@ function App() {
       >
         Text To Speech{" "}
         <span className="subTitle">
-          <li>C</li>
-          <li>o</li>
-          <li>n</li>
-          <li>v</li>
-          <li>e</li>
-          <li>r</li>
-          <li>t</li>
-          <li>e</li>
-          <li>r</li>
+          {["C","o","n","v","e","r","t","e","r"].map((letter, index) => (
+            <li key={index}>{letter}</li>
+          ))}
         </span>
       </motion.h1>
       <div className="input-group">
@@ -119,6 +151,8 @@ function App() {
       </motion.button>
     </div>
   );
+
+  return showSplash ? <SplashScreen /> : <MainContent />;
 }
 
 export default App;
